@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <script>
+
+      function run() {
+        const input = document.getElementById('input').value
+
+        const numberStrings = input.split('').map(charToNumberString).join('-')
+        
+        document.getElementById('numberStrings').innerText = numberStrings
+
+        const braille = numberStrings.split('-').map(numberStringToBraille).join('')
+        
+        document.getElementById('braille').innerText = braille
+      }
+
+      function charToNumberString(char) {
+        const mappings = [ //
+          ' ', '', //
+          'a', '1', //
+          'b', '12', //
+          'c', '14', //
+          'd', '145', //
+          'e', '15', //
+          'f', '124', //
+          'g', '1245', //
+          'h', '125', //
+          'i', '25', //
+          'j', '245', //
+          'k', '13', //
+          'l', '123', //
+          'm', '134', //
+          'n', '1345', //
+          'o', '1345', //
+          'p', '1234', //
+          'q', '12345', //
+          'r', '1235', //
+          's', '234', //
+          't', '2345', //
+          'u', '136', //
+          'v', '1236', //
+          'w', '2456', //
+          'x', '1346', //
+          'y', '13456', //
+          'z', '1356' //
+        ]
+
+        return mappings[1 + mappings.indexOf(char.toLowerCase())]
+      }
+
+      function numberStringToBraille(numberSet) {
+        let codePoint = 0x2800
+        const possibleNumbers = ['1', '2', '3', '4', '5', '6']
+        for (const possibleNumber of possibleNumbers) {
+          if (numberSet.indexOf(possibleNumber) >= 0) {
+            codePoint = codePoint + Math.pow(2, parseInt(possibleNumber) - 1)
+          }
+        }
+        return String.fromCharCode(codePoint)
+      }
+
+    </script>
+  </head>
+  <body>
+    <input id="input" type="text" /><br />
+    <button type="button" onclick="run()">Push me!</button><br />
+    <label id="numberStrings"></label><br />
+    <label id="braille"></label>
+  </body>
+</html>
